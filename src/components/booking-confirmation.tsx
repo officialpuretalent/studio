@@ -27,7 +27,7 @@ export function BookingConfirmation() {
 
   if (!propertyAddress || !viewingTime || !tenantName || !tenantEmail) {
     return (
-         <Card className="shadow-2xl">
+         <Card className="border">
             <CardHeader>
                 <CardTitle className="text-destructive">Booking Confirmation Error</CardTitle>
                 <CardDescription>Could not retrieve all booking details. Please check your email for confirmation.</CardDescription>
@@ -73,7 +73,7 @@ export function BookingConfirmation() {
   };
 
   return (
-    <Card className="shadow-2xl animate-in fade-in-50 zoom-in-95 duration-500">
+    <Card className="animate-in fade-in-50 zoom-in-95 duration-500 border">
       <CardHeader>
         <div className="flex justify-center mb-4">
           <CheckCircle2 className="w-16 h-16 text-green-500" />

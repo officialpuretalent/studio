@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 function BookingFormSkeleton() {
     return (
-        <Card className="w-full max-w-md shadow-2xl">
+        <Card className="w-full max-w-md">
             <CardHeader>
                 <CardTitle className="text-2xl">Confirm Your Details</CardTitle>
                 <Skeleton className="h-4 w-3/4 mt-2" />

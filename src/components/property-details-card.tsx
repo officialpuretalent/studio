@@ -20,7 +20,7 @@ export function PropertyDetailsCard({
   isAvailable,
 }: PropertyDetailsCardProps) {
   return (
-    <Card className="w-full overflow-hidden shadow-lg mb-8 animate-in fade-in-50 duration-500">
+    <Card className="w-full overflow-hidden mb-8 animate-in fade-in-50 duration-500">
       <div className="relative h-48 sm:h-64 w-full">
         <Image
           src={property.imageUrl}

@@ -12,7 +12,7 @@ import ViewWiseLogo from '@/components/icons/viewwise-logo';
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
-      <Card className="w-full max-w-md shadow-2xl animate-in fade-in-50 zoom-in-95 duration-500">
+      <Card className="w-full max-w-md animate-in fade-in-50 zoom-in-95 duration-500 border">
         <CardHeader className="items-center text-center">
           <ViewWiseLogo className="h-16 w-16 text-primary" />
           <CardTitle className="text-3xl font-bold pt-4 font-headline">

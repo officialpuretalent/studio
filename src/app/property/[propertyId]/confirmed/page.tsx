@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 function ConfirmationSkeleton() {
     return (
-        <Card className="w-full max-w-lg shadow-2xl">
+        <Card className="w-full max-w-lg">
             <CardHeader className="items-center">
                  <Skeleton className="w-16 h-16 rounded-full" />
                  <Skeleton className="h-8 w-3/4 mt-4" />

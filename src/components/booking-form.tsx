@@ -91,7 +91,7 @@ export function BookingForm({
   }
 
   return (
-    <Card className="w-full shadow-2xl animate-in fade-in-50 zoom-in-95 duration-500">
+    <Card className="w-full animate-in fade-in-50 zoom-in-95 duration-500 border">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Confirm Your Details</CardTitle>
         <CardDescription>
