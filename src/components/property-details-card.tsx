@@ -82,18 +82,18 @@ export function PropertyDetailsCard({
       </CardHeader>
       <CardContent className='space-y-6'>
         <div className="grid grid-cols-2 gap-4 text-sm">
-            <div className='flex items-center gap-2 p-3 bg-secondary rounded-lg'>
-                <Wallet className="w-6 h-6 text-primary" />
+            <div className='flex items-start gap-3 p-3 bg-secondary rounded-lg'>
+                <Wallet className="w-5 h-5 text-primary mt-0.5" />
                 <div>
                     <p className='text-muted-foreground'>Rent</p>
-                    <p className='font-semibold text-lg'>{formatCurrency(property.rent)} / month</p>
+                    <p className='font-semibold text-base'>{formatCurrency(property.rent)} / month</p>
                 </div>
             </div>
-            <div className='flex items-center gap-2 p-3 bg-secondary rounded-lg'>
-                <Wallet className="w-6 h-6 text-primary" />
+            <div className='flex items-start gap-3 p-3 bg-secondary rounded-lg'>
+                <Wallet className="w-5 h-5 text-primary mt-0.5" />
                 <div>
                     <p className='text-muted-foreground'>Deposit</p>
-                    <p className='font-semibold text-lg'>{formatCurrency(property.deposit)}</p>
+                    <p className='font-semibold text-base'>{formatCurrency(property.rent)}</p>
                 </div>
             </div>
         </div>
