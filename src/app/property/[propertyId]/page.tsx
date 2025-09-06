@@ -2,6 +2,7 @@ import { PropertyDetailsCard } from '@/components/property-details-card';
 import { BookingCalendar } from '@/components/booking-calendar';
 import type { Property, ViewingSlot } from '@/lib/types';
 import ApertureLogo from '@/components/icons/aperture-logo';
+import { AskAnythingBar } from '@/components/ask-anything-bar';
 
 // MOCK DATA
 const MOCK_PROPERTY: Property = {
@@ -86,12 +87,12 @@ export default function PropertyPage({
 
   return (
     <div className="bg-background min-h-screen">
-      <header className="sticky top-0 z-50 w-full p-4 border-b bg-card/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-40 w-full p-4 border-b bg-card/80 backdrop-blur-sm">
         <div className="container mx-auto flex items-center gap-3" style={{ maxWidth: 960 }}>
           <ApertureLogo />
         </div>
       </header>
-      <main className="container mx-auto p-4 md:p-8" style={{ maxWidth: 960 }}>
+      <main className="container mx-auto p-4 md:p-8 pb-32" style={{ maxWidth: 960 }}>
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
           <div className="lg:w-[60%]">
             <PropertyDetailsCard property={property} isAvailable={isAvailable} />
@@ -111,6 +112,7 @@ export default function PropertyPage({
           </div>
         </div>
       </main>
+      <AskAnythingBar />
     </div>
   );
 }
