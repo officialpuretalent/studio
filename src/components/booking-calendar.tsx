@@ -76,7 +76,7 @@ export function BookingCalendar({
           selectedDate={date}
           onSelectDate={setDate}
         />
-        <div className="flex flex-col gap-3 overflow-y-auto pr-2">
+        <div className="flex flex-col gap-3">
           {slotsForSelectedDate.length > 0 ? (
             slotsForSelectedDate.map((slot) => {
               const isBooked = slot.bookedSlots >= slot.totalSlots;
@@ -85,7 +85,7 @@ export function BookingCalendar({
                   key={slot.id}
                   asChild
                   variant="outline"
-                  className="h-auto justify-start p-3 transition-all duration-300 ease-in-out hover:shadow-md hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="h-auto justify-between p-3 transition-all duration-300 ease-in-out hover:shadow-md hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isBooked}
                   aria-label={
                     isBooked
@@ -95,9 +95,8 @@ export function BookingCalendar({
                 >
                   <Link
                     href={`/property/${propertyId}/book?time=${slot.startTime.toISOString()}`}
-                    className={isBooked ? 'pointer-events-none' : ''}
+                    className={isBooked ? 'pointer-events-none w-full flex justify-between items-center' : 'w-full flex justify-between items-center'}
                   >
-                    <div className="flex items-center justify-between w-full">
                       <p className="font-semibold text-base">
                         {format(slot.startTime, 'HH:mm')}
                       </p>
@@ -108,7 +107,6 @@ export function BookingCalendar({
                           <Badge variant="secondary">Group Viewing</Badge>
                         )
                       )}
-                    </div>
                   </Link>
                 </Button>
               );
