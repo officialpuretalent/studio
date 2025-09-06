@@ -3,14 +3,11 @@ import Link from 'next/link';
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/lib/types';
-import { BedDouble, Bath, Wallet, Star, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle, Calendar } from 'lucide-react';
+import { BedDouble, Bath, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle, Calendar } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -91,7 +88,7 @@ export function PropertyDetailsCard({
             </div>
          </div>
       </div>
-      <CardContent className='space-y-6 pt-6'>
+      <CardContent className='space-y-6 pt-6 px-0'>
          {isAvailable ? (
           <Button asChild size="lg" className="w-full font-semibold">
             <Link href="#booking-calendar">
