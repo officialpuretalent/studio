@@ -62,9 +62,10 @@ export function PropertyDetailsCard({
           className="object-cover rounded-xl"
           data-ai-hint="modern house"
         />
-        <div className="absolute top-4 right-4 flex items-center gap-2 rounded-full bg-background/80 px-3 py-1.5 text-sm font-semibold backdrop-blur-sm">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-            <span>{property.rating.toFixed(1)} / 10</span>
+        <div className="absolute top-4 right-4">
+            <Badge variant={isAvailable ? "secondary" : "destructive"} className="text-sm backdrop-blur-sm">
+                {isAvailable ? 'Available' : 'Leased'}
+            </Badge>
         </div>
          <div className="absolute bottom-4 left-4 right-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg">
            <div className="flex justify-between items-start">
