@@ -33,42 +33,35 @@ const generateMockSlots = (): ViewingSlot[] => {
     const date = new Date(baseDate);
     date.setDate(baseDate.getDate() + dayOffset);
 
-    if (dayOffset % 2 === 0) {
-      slots.push({
-        id: `slot-${dayOffset}-1`,
-        startTime: new Date(new Date(date).setHours(10, 0)),
-        endTime: new Date(new Date(date).setHours(10, 30)),
-        type: 'Individual Viewing',
-        totalSlots: 1,
-        bookedSlots: (dayOffset / 2) % 2 === 0 ? 0 : 1,
-      });
-      slots.push({
-        id: `slot-${dayOffset}-2`,
-        startTime: new Date(new Date(date).setHours(10, 30)),
-        endTime: new Date(new Date(date).setHours(11, 0)),
-        type: 'Individual Viewing',
-        totalSlots: 1,
-        bookedSlots: 0,
-      });
-    }
+    // Generate slots from 9am to 5pm (17:00)
+    for (let hour = 9; hour < 17; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const startTime = new Date(new Date(date).setHours(hour, minute));
+        const endTime = new Date(
+          new Date(date).setHours(hour, minute + 30)
+        );
 
-    if (dayOffset % 3 === 0) {
-      slots.push({
-        id: `slot-${dayOffset}-3`,
-        startTime: new Date(new Date(date).setHours(14, 0)),
-        endTime: new Date(new Date(date).setHours(14, 30)),
-        type: 'Group Viewing',
-        totalSlots: 5,
-        bookedSlots: 3,
-      });
-      slots.push({
-        id: `slot-${dayOffset}-4`,
-        startTime: new Date(new Date(date).setHours(14, 30)),
-        endTime: new Date(new Date(date).setHours(15, 0)),
-        type: 'Group Viewing',
-        totalSlots: 5,
-        bookedSlots: 5,
-      });
+        // Don't generate slots on weekends for this example
+        if (startTime.getDay() === 0 || startTime.getDay() === 6) {
+            continue;
+        }
+
+        const isGroup = Math.random() > 0.8;
+        const totalSlots = isGroup ? 5 : 1;
+        
+        // Make some slots fully booked
+        const isFullyBooked = Math.random() > 0.7;
+        const bookedSlots = isFullyBooked ? totalSlots : Math.floor(Math.random() * totalSlots);
+
+        slots.push({
+          id: `slot-${dayOffset}-${hour}-${minute}`,
+          startTime,
+          endTime,
+          type: isGroup ? 'Group Viewing' : 'Individual Viewing',
+          totalSlots: totalSlots,
+          bookedSlots: bookedSlots,
+        });
+      }
     }
   }
   return slots;
