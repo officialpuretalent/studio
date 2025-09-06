@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/lib/types';
-import { BedDouble, Bath } from 'lucide-react';
+import { BedDouble, Bath, Wallet } from 'lucide-react';
 
 interface PropertyDetailsCardProps {
   property: Property;
@@ -19,6 +19,15 @@ export function PropertyDetailsCard({
   property,
   isAvailable,
 }: PropertyDetailsCardProps) {
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-ZA', {
+      style: 'currency',
+      currency: 'ZAR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+    
   return (
     <Card className="w-full overflow-hidden animate-in fade-in-50 duration-500">
       <div className="relative h-64 w-full">
@@ -44,7 +53,23 @@ export function PropertyDetailsCard({
           </span>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className='space-y-4'>
+        <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className='flex items-center gap-2'>
+                <Wallet className="w-5 h-5 text-primary" />
+                <div>
+                    <p className='text-muted-foreground'>Rent</p>
+                    <p className='font-semibold'>{formatCurrency(property.rent)} / month</p>
+                </div>
+            </div>
+            <div className='flex items-center gap-2'>
+                <Wallet className="w-5 h-5 text-primary" />
+                <div>
+                    <p className='text-muted-foreground'>Deposit</p>
+                    <p className='font-semibold'>{formatCurrency(property.deposit)}</p>
+                </div>
+            </div>
+        </div>
         {isAvailable ? (
           <Badge variant="secondary" className="text-sm">
             Choose a time to view this property

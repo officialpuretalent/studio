@@ -138,7 +138,7 @@ export function BookingForm({
                 <FormItem>
                   <FormLabel>Mobile Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="+1 123 456 7890" {...field} />
+                    <Input placeholder="+27 82 123 4567" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

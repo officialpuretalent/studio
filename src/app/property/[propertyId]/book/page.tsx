@@ -34,7 +34,7 @@ function BookingPageContent({ propertyId }: { propertyId: string }) {
   return (
     <BookingForm
       propertyId={propertyId}
-      propertyAddress="123 Maple Street, Anytown, USA 12345"
+      propertyAddress="456 Oak Avenue, Sandton, Johannesburg, 2196"
     />
   );
 }

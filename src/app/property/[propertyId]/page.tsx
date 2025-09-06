@@ -5,9 +5,11 @@ import ViewWiseLogo from '@/components/icons/viewwise-logo';
 
 // MOCK DATA
 const MOCK_PROPERTY: Property = {
-  id: '123-maple-street',
-  address: '123 Maple Street, Anytown, USA 12345',
+  id: '456-oak-avenue',
+  address: '456 Oak Avenue, Sandton, Johannesburg, 2196',
   details: '2 Bedrooms, 1 Bathroom',
+  rent: 15000,
+  deposit: 30000,
   imageUrl: 'https://picsum.photos/1200/800',
 };
 
