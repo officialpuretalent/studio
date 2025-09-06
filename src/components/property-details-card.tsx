@@ -52,52 +52,43 @@ export function PropertyDetailsCard({
   };
     
   return (
-    <Card className="w-full overflow-hidden animate-in fade-in-50 duration-500">
-      <div className="relative h-64 w-full md:h-80">
+    <Card className="w-full overflow-hidden animate-in fade-in-50 duration-500 border-0 shadow-none bg-transparent">
+       <div className="relative h-96 w-full">
         <Image
           src={property.imageUrl}
           alt={`Photo of ${property.address}`}
           fill
           priority
-          className="object-cover"
+          className="object-cover rounded-xl"
           data-ai-hint="modern house"
         />
         <div className="absolute top-4 right-4 flex items-center gap-2 rounded-full bg-background/80 px-3 py-1.5 text-sm font-semibold backdrop-blur-sm">
             <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
             <span>{property.rating.toFixed(1)} / 10</span>
         </div>
+         <div className="absolute bottom-4 left-4 right-4 bg-background/80 backdrop-blur-sm p-4 rounded-lg">
+           <div className="flex justify-between items-start">
+             <div>
+                <h2 className="text-xl font-bold font-headline">{property.address.split(',')[0]}</h2>
+                <p className="text-sm text-muted-foreground">{property.address.split(',').slice(1).join(',').trim()}</p>
+             </div>
+             <div className="text-right">
+                <p className="text-xl font-bold">{formatCurrency(property.rent)}<span className="text-sm font-normal text-muted-foreground">/month</span></p>
+                <p className="text-sm text-muted-foreground">Deposit: {formatCurrency(property.rent)}</p>
+             </div>
+           </div>
+           <div className="border-t border-border/50 my-3"></div>
+            <div className="flex items-center gap-4 text-sm">
+                <span className="flex items-center gap-2">
+                    <BedDouble className="w-5 h-5 text-primary" /> 2 Bedrooms
+                </span>
+                <span className="flex items-center gap-2">
+                    <Bath className="w-5 h-5 text-primary" /> 1 Bathroom
+                </span>
+            </div>
+         </div>
       </div>
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold font-headline">
-          {property.address}
-        </CardTitle>
-        <CardDescription className="flex items-center gap-4 pt-1 text-base">
-          <span className="flex items-center gap-2 text-muted-foreground">
-            <BedDouble className="w-5 h-5 text-primary" /> 2 Bedrooms
-          </span>
-          <span className="flex items-center gap-2 text-muted-foreground">
-            <Bath className="w-5 h-5 text-primary" /> 1 Bathroom
-          </span>
-        </CardDescription>
-      </CardHeader>
-      <CardContent className='space-y-6'>
-        <div className="grid grid-cols-2 gap-4 text-sm">
-            <div className='flex items-start gap-3 p-3 bg-secondary rounded-lg'>
-                <Wallet className="w-5 h-5 text-primary mt-0.5" />
-                <div>
-                    <p className='text-muted-foreground'>Rent</p>
-                    <p className='font-semibold text-base'>{formatCurrency(property.rent)} / month</p>
-                </div>
-            </div>
-            <div className='flex items-start gap-3 p-3 bg-secondary rounded-lg'>
-                <Wallet className="w-5 h-5 text-primary mt-0.5" />
-                <div>
-                    <p className='text-muted-foreground'>Deposit</p>
-                    <p className='font-semibold text-base'>{formatCurrency(property.rent)}</p>
-                </div>
-            </div>
-        </div>
-        
+      <CardContent className='space-y-6 pt-6'>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="affordability">
             <AccordionTrigger className="text-sm font-semibold">
