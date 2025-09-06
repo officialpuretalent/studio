@@ -1,0 +1,101 @@
+import { PropertyDetailsCard } from '@/components/property-details-card';
+import { BookingCalendar } from '@/components/booking-calendar';
+import type { Property, ViewingSlot } from '@/lib/types';
+import ViewWiseLogo from '@/components/icons/viewwise-logo';
+
+// MOCK DATA
+const MOCK_PROPERTY: Property = {
+  id: '123-maple-street',
+  address: '123 Maple Street, Anytown, USA 12345',
+  details: '2 Bedrooms, 1 Bathroom',
+  imageUrl: 'https://picsum.photos/1200/800',
+};
+
+const generateMockSlots = (): ViewingSlot[] => {
+  const slots: ViewingSlot[] = [];
+  const baseDate = new Date();
+  baseDate.setHours(0, 0, 0, 0);
+
+  for (let dayOffset = 0; dayOffset < 14; dayOffset++) {
+    const date = new Date(baseDate);
+    date.setDate(baseDate.getDate() + dayOffset);
+
+    if (dayOffset % 2 === 0) {
+      slots.push({
+        id: `slot-${dayOffset}-1`,
+        startTime: new Date(new Date(date).setHours(10, 0)),
+        endTime: new Date(new Date(date).setHours(10, 30)),
+        type: 'Individual Viewing',
+        totalSlots: 1,
+        bookedSlots: (dayOffset / 2) % 2 === 0 ? 0 : 1,
+      });
+      slots.push({
+        id: `slot-${dayOffset}-2`,
+        startTime: new Date(new Date(date).setHours(10, 30)),
+        endTime: new Date(new Date(date).setHours(11, 0)),
+        type: 'Individual Viewing',
+        totalSlots: 1,
+        bookedSlots: 0,
+      });
+    }
+
+    if (dayOffset % 3 === 0) {
+      slots.push({
+        id: `slot-${dayOffset}-3`,
+        startTime: new Date(new Date(date).setHours(14, 0)),
+        endTime: new Date(new Date(date).setHours(14, 30)),
+        type: 'Group Viewing',
+        totalSlots: 5,
+        bookedSlots: 3,
+      });
+      slots.push({
+        id: `slot-${dayOffset}-4`,
+        startTime: new Date(new Date(date).setHours(14, 30)),
+        endTime: new Date(new Date(date).setHours(15, 0)),
+        type: 'Group Viewing',
+        totalSlots: 5,
+        bookedSlots: 5,
+      });
+    }
+  }
+  return slots;
+};
+
+export default function PropertyPage({
+  params,
+}: {
+  params: { propertyId: string };
+}) {
+  // In a real app, data would be fetched based on params.propertyId
+  const property = MOCK_PROPERTY;
+  const viewingSlots = generateMockSlots();
+
+  const isAvailable = true;
+
+  return (
+    <div className="bg-background min-h-screen">
+      <header className="p-4 border-b bg-card">
+        <div className="container mx-auto flex items-center gap-3">
+          <ViewWiseLogo className="h-8 w-8 text-primary" />
+          <h1 className="text-xl font-bold font-headline">ViewWise</h1>
+        </div>
+      </header>
+      <main className="container mx-auto p-4 md:p-8">
+        <div className="max-w-4xl mx-auto">
+          <PropertyDetailsCard property={property} isAvailable={isAvailable} />
+          {isAvailable ? (
+            <BookingCalendar
+              propertyId={property.id}
+              viewingSlots={viewingSlots}
+            />
+          ) : (
+            <div className="text-center mt-8 text-lg text-muted-foreground">
+              <p>Here are some similar properties.</p>
+              {/* Similar properties component would go here */}
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
