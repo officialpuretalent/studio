@@ -88,8 +88,7 @@ export default function PropertyPage({
     <div className="bg-background min-h-screen">
       <header className="sticky top-0 z-50 w-full p-4 border-b bg-card/80 backdrop-blur-sm">
         <div className="container mx-auto flex items-center gap-3">
-          <ApertureLogo className="h-8 w-8 text-primary" />
-          <h1 className="text-xl font-bold font-headline">Aperture</h1>
+          <ApertureLogo />
         </div>
       </header>
       <main className="container mx-auto p-4 md:p-8">

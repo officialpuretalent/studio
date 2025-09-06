@@ -44,7 +44,7 @@ export default function BookPage({ params }: { params: { propertyId: string } })
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex justify-center mb-6">
-          <ApertureLogo className="h-12 w-12 text-primary" />
+          <ApertureLogo />
         </div>
         <Suspense fallback={<BookingFormSkeleton />}>
           <BookingPageContent propertyId={params.propertyId} />
