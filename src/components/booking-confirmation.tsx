@@ -90,8 +90,8 @@ export function BookingConfirmation() {
             <Image
                 src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjJvaHE3dXJscWZudWdjd2JmdnQ5d2ExZ2htNW10MGYwbWxjaXRsaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wKKnvfqzNOzo3Q3TwY/giphy.gif"
                 alt="Confirmation GIF"
-                width={80}
-                height={80}
+                width={120}
+                height={120}
                 unoptimized
             />
         </div>
