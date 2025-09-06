@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Plus, Mic, AudioLines, ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 export function AskAnythingBar() {
   const [inputValue, setInputValue] = useState('');
@@ -23,7 +24,12 @@ export function AskAnythingBar() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-transparent">
       <div className="relative max-w-lg mx-auto">
-        <div className="flex items-end gap-2 p-2 bg-background/80 backdrop-blur-sm rounded-3xl shadow-lg border border-border">
+        <div
+          className={cn(
+            'flex items-end gap-2 p-2 bg-background/80 backdrop-blur-sm shadow-lg border border-border transition-all duration-300',
+            hasInput ? 'rounded-2xl' : 'rounded-full'
+          )}
+        >
           <Button
             variant="ghost"
             size="icon"
