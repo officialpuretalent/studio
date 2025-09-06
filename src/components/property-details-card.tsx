@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import {
   Card,
   CardContent,
@@ -6,9 +7,10 @@ import {
   CardTitle,
   CardDescription,
 } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/lib/types';
-import { BedDouble, Bath, Wallet, Star, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle } from 'lucide-react';
+import { BedDouble, Bath, Wallet, Star, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle, Calendar } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -90,6 +92,18 @@ export function PropertyDetailsCard({
          </div>
       </div>
       <CardContent className='space-y-6 pt-6'>
+         {isAvailable ? (
+          <Button asChild size="lg" className="w-full font-semibold">
+            <Link href="#booking-calendar">
+              <Calendar className="mr-2 h-5 w-5" />
+              Book a Viewing
+            </Link>
+          </Button>
+        ) : (
+          <Badge variant="destructive" className="text-sm w-full justify-center p-3">
+            This property is no longer available
+          </Badge>
+        )}
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="affordability">
             <AccordionTrigger className="text-sm font-semibold">
@@ -137,16 +151,6 @@ export function PropertyDetailsCard({
                 </div>
             </div>
         </div>
-
-        {isAvailable ? (
-          <Badge variant="secondary" className="text-sm">
-            Choose a time to view this property
-          </Badge>
-        ) : (
-          <Badge variant="destructive" className="text-sm">
-            This property is no longer available
-          </Badge>
-        )}
       </CardContent>
     </Card>
   );

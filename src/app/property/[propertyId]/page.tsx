@@ -90,7 +90,7 @@ export default function PropertyPage({
           <div className="lg:w-[60%]">
             <PropertyDetailsCard property={property} isAvailable={isAvailable} />
           </div>
-          <div className="lg:w-[40%]">
+          <div id="booking-calendar" className="lg:w-[40%] scroll-mt-24">
             {isAvailable ? (
               <BookingCalendar
                 propertyId={property.id}
