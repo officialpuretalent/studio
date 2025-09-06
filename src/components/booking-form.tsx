@@ -35,7 +35,8 @@ import {
 import { bookViewing } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
+import { Skeleton } from './ui/skeleton';
 
 const bookingSchema = z.object({
   fullName: z
@@ -58,8 +59,18 @@ export function BookingForm({
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [formattedTime, setFormattedTime] = useState<string | null>(null);
 
   const time = searchParams.get('time');
+
+  useEffect(() => {
+    if (time) {
+      setFormattedTime(
+        format(new Date(time), "h:mm a 'on' EEEE, do LLLL")
+      );
+    }
+  }, [time]);
+
   if (!time) {
     return (
       <Card>
@@ -116,9 +127,13 @@ export function BookingForm({
           </CardTitle>
           <CardDescription>
             You've selected{' '}
-            <span className="font-semibold text-foreground">
-              {format(selectedTime, "h:mm a 'on' EEEE, do LLLL")}
-            </span>
+            {formattedTime ? (
+              <span className="font-semibold text-foreground">
+                {formattedTime}
+              </span>
+            ) : (
+              <Skeleton className="h-5 w-48 inline-block" />
+            )}
             .
           </CardDescription>
         </CardHeader>
