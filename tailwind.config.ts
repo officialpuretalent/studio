@@ -9,9 +9,12 @@ export default {
   ],
   theme: {
     extend: {
+      minHeight: {
+        screen: '100svh',
+      },
       fontFamily: {
         body: ['var(--font-poppins)', 'sans-serif'],
-        headline: ['var(--font-poppins)', 'sans-serif'],
+        headline: ['var(--font-bodoni-moda)', 'sans-serif'],
         logo: ['var(--font-bodoni-moda)', 'serif'],
         code: ['monospace'],
       },

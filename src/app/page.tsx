@@ -11,11 +11,11 @@ import ApertureLogo from '@/components/icons/aperture-logo';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
+    <main className="flex min-h-[100svh] flex-col items-center justify-center bg-background p-8">
       <Card className="w-full max-w-md animate-in fade-in-50 zoom-in-95 duration-500">
         <CardHeader className="items-center text-center">
           <ApertureLogo className="h-auto w-auto text-4xl" />
-          <CardTitle className="text-3xl font-bold pt-4 font-headline">
+          <CardTitle className="pt-4 font-headline text-3xl font-bold">
             Welcome to Aperture
           </CardTitle>
           <CardDescription className="pt-2">
