@@ -81,16 +81,14 @@ export default function PropertyPage({
   return (
     <div className="bg-background min-h-screen">
       <header className="sticky top-0 z-40 w-full p-4 border-b bg-card/80 backdrop-blur-sm">
-        <div className="container mx-auto flex max-w-6xl items-center gap-3 px-4 md:px-8">
+        <div className="container mx-auto flex max-w-3xl items-center gap-3 px-4 md:px-8">
           <ApertureLogo />
         </div>
       </header>
-      <main className="container mx-auto p-4 md:p-8 pb-32 max-w-6xl">
-        <div className="mx-auto flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-[60%]">
-            <PropertyDetailsCard property={property} isAvailable={isAvailable} />
-          </div>
-          <div id="booking-calendar" className="lg:w-[40%] scroll-mt-24">
+      <main className="container mx-auto p-4 md:p-8 pb-32 max-w-3xl">
+        <div className="mx-auto flex flex-col gap-8">
+          <PropertyDetailsCard property={property} isAvailable={isAvailable} />
+          <div id="booking-calendar" className="scroll-mt-24">
             {isAvailable ? (
               <BookingCalendar
                 propertyId={property.id}
