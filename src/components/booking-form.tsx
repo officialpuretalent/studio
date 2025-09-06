@@ -202,8 +202,7 @@ export function BookingForm({
           <AlertDialogHeader>
             <AlertDialogTitle>Confirm Booking</AlertDialogTitle>
             <AlertDialogDescription>
-              We will send a confirmation and a calendar invite to your email
-              and WhatsApp.
+              Please ensure the number you provided is a valid WhatsApp number. We will send a confirmation and calendar invite to your email and WhatsApp, allowing you to manage your schedule.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
