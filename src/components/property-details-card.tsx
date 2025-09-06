@@ -10,6 +10,12 @@ import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/lib/types';
 import { BedDouble, Bath, Wallet, Star, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle } from 'lucide-react';
 import { Separator } from './ui/separator';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface PropertyDetailsCardProps {
   property: Property;
@@ -93,6 +99,33 @@ export function PropertyDetailsCard({
             </div>
         </div>
         
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="affordability">
+            <AccordionTrigger className="text-sm font-semibold">
+              Check Affordability
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground space-y-2">
+              <p>
+                To qualify, your gross monthly income must be at least 3 times the rental amount.
+              </p>
+              <p>
+                For a single applicant, you need to earn at least{' '}
+                <span className="font-semibold text-foreground">
+                  {formatCurrency(property.rent * 3)}
+                </span>{' '}
+                per month.
+              </p>
+              <p>
+                For a joint lease, the combined income of all applicants must be at least{' '}
+                <span className="font-semibold text-foreground">
+                  {formatCurrency(property.rent * 3)}
+                </span>{' '}
+                per month.
+              </p>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
         <Separator />
 
         <div>
