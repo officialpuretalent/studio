@@ -87,11 +87,11 @@ export default function PropertyPage({
   return (
     <div className="bg-background min-h-screen">
       <header className="sticky top-0 z-50 w-full p-4 border-b bg-card/80 backdrop-blur-sm">
-        <div className="container mx-auto flex items-center gap-3">
+        <div className="container mx-auto flex items-center gap-3" style={{ maxWidth: 960 }}>
           <ApertureLogo />
         </div>
       </header>
-      <main className="container mx-auto p-4 md:p-8">
+      <main className="container mx-auto p-4 md:p-8" style={{ maxWidth: 960 }}>
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
           <div className="lg:w-[60%]">
             <PropertyDetailsCard property={property} isAvailable={isAvailable} />
