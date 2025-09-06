@@ -81,19 +81,23 @@ export default function PropertyPage({
         </div>
       </header>
       <main className="container mx-auto p-4 md:p-8">
-        <div className="max-w-4xl mx-auto">
-          <PropertyDetailsCard property={property} isAvailable={isAvailable} />
-          {isAvailable ? (
-            <BookingCalendar
-              propertyId={property.id}
-              viewingSlots={viewingSlots}
-            />
-          ) : (
-            <div className="text-center mt-8 text-lg text-muted-foreground">
-              <p>Here are some similar properties.</p>
-              {/* Similar properties component would go here */}
-            </div>
-          )}
+        <div className="max-w-4xl mx-auto flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-1/2">
+            <PropertyDetailsCard property={property} isAvailable={isAvailable} />
+          </div>
+          <div className="lg:w-1/2">
+            {isAvailable ? (
+              <BookingCalendar
+                propertyId={property.id}
+                viewingSlots={viewingSlots}
+              />
+            ) : (
+              <div className="text-center mt-8 text-lg text-muted-foreground">
+                <p>Here are some similar properties.</p>
+                {/* Similar properties component would go here */}
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>

@@ -20,8 +20,8 @@ export function PropertyDetailsCard({
   isAvailable,
 }: PropertyDetailsCardProps) {
   return (
-    <Card className="w-full overflow-hidden mb-8 animate-in fade-in-50 duration-500">
-      <div className="relative h-48 sm:h-64 w-full">
+    <Card className="w-full overflow-hidden animate-in fade-in-50 duration-500">
+      <div className="relative h-64 w-full">
         <Image
           src={property.imageUrl}
           alt={`Photo of ${property.address}`}
@@ -32,7 +32,7 @@ export function PropertyDetailsCard({
         />
       </div>
       <CardHeader>
-        <CardTitle className="text-2xl font-bold font-headline">
+        <CardTitle className="text-xl font-bold font-headline">
           {property.address}
         </CardTitle>
         <CardDescription className="flex items-center gap-4 pt-2 text-base">

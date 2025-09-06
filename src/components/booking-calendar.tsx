@@ -66,9 +66,9 @@ export function BookingCalendar({
   return (
     <Card className="animate-in fade-in-50 duration-500 delay-150">
       <CardHeader>
-        <CardTitle className="font-headline">Select a Date & Time</CardTitle>
+        <CardTitle className="font-headline text-xl">Select a Date & Time</CardTitle>
       </CardHeader>
-      <CardContent className="grid md:grid-cols-2 gap-8">
+      <CardContent className="grid grid-cols-1 md:grid-cols-1 gap-6">
         <div className="flex justify-center">
           <Calendar
             mode="single"
