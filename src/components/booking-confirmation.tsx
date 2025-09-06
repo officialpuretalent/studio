@@ -10,11 +10,12 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, CalendarPlus, Loader2 } from 'lucide-react';
+import { CalendarPlus, Loader2 } from 'lucide-react';
 import { getCalendarInvite } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { Skeleton } from './ui/skeleton';
+import Image from 'next/image';
 
 export function BookingConfirmation() {
   const searchParams = useSearchParams();
@@ -86,7 +87,13 @@ export function BookingConfirmation() {
     <Card className="animate-in fade-in-50 zoom-in-95 duration-500 border">
       <CardHeader>
         <div className="flex justify-center mb-4">
-          <CheckCircle2 className="w-16 h-16 text-green-500" />
+            <Image
+                src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcjJvaHE3dXJscWZudWdjd2JmdnQ5d2ExZ2htNW10MGYwbWxjaXRsaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/wKKnvfqzNOzo3Q3TwY/giphy.gif"
+                alt="Confirmation GIF"
+                width={80}
+                height={80}
+                unoptimized
+            />
         </div>
         <CardTitle className="text-3xl font-bold font-headline">
           Your viewing is confirmed!
