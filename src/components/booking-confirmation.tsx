@@ -13,33 +13,43 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, CalendarPlus, Loader2 } from 'lucide-react';
 import { getCalendarInvite } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Skeleton } from './ui/skeleton';
 
 export function BookingConfirmation() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [formattedTime, setFormattedTime] = useState<string | null>(null);
 
   const propertyAddress = searchParams.get('propertyAddress');
   const viewingTime = searchParams.get('viewingTime');
   const tenantName = searchParams.get('tenantName');
   const tenantEmail = searchParams.get('tenantEmail');
 
+  useEffect(() => {
+    if (viewingTime) {
+      setFormattedTime(
+        format(new Date(viewingTime), "EEEE, do LLLL yyyy 'at' h:mm a")
+      );
+    }
+  }, [viewingTime]);
+
   if (!propertyAddress || !viewingTime || !tenantName || !tenantEmail) {
     return (
-         <Card className="border">
-            <CardHeader>
-                <CardTitle className="text-destructive">Booking Confirmation Error</CardTitle>
-                <CardDescription>Could not retrieve all booking details. Please check your email for confirmation.</CardDescription>
-            </CardHeader>
-         </Card>
-    )
+      <Card className="border">
+        <CardHeader>
+          <CardTitle className="text-destructive">
+            Booking Confirmation Error
+          </CardTitle>
+          <CardDescription>
+            Could not retrieve all booking details. Please check your email for
+            confirmation.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    );
   }
-
-  const formattedTime = format(
-    new Date(viewingTime),
-    "EEEE, do LLLL yyyy 'at' h:mm a"
-  );
 
   const handleDownloadInvite = async () => {
     setIsLoading(true);
@@ -82,7 +92,8 @@ export function BookingConfirmation() {
           Your viewing is confirmed!
         </CardTitle>
         <CardDescription className="pt-2">
-          We have sent a confirmation and a calendar invite to your email and WhatsApp.
+          We have sent a confirmation and a calendar invite to your email and
+          WhatsApp.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -97,7 +108,11 @@ export function BookingConfirmation() {
             <span className="font-semibold text-card-foreground/80">
               When:
             </span>{' '}
-            {formattedTime}
+            {formattedTime ? (
+              formattedTime
+            ) : (
+              <Skeleton className="h-5 w-48 inline-block" />
+            )}
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4">
