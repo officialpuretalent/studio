@@ -8,7 +8,7 @@ export default function ApertureLogo({
   return (
     <div
       className={cn(
-        'font-headline font-bold text-2xl tracking-tight text-foreground',
+        'font-logo font-bold text-2xl tracking-tight text-foreground',
         className
       )}
       {...props}

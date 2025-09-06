@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         body: ['Poppins', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
+        logo: ['"Bodoni Moda"', 'serif'],
         code: ['monospace'],
       },
       colors: {
