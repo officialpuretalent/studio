@@ -73,7 +73,7 @@ export function DateScroller({
           );
         })}
       </div>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" className="hidden" />
     </ScrollArea>
   );
 }
