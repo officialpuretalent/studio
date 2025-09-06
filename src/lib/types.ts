@@ -5,6 +5,16 @@ export type Property = {
   rent: number;
   deposit: number;
   imageUrl: string;
+  areaInterests: string[];
+  uberFriendly: boolean;
+  rating: number;
+  amenities: {
+    gym: boolean;
+    cafe: boolean;
+    restaurants: boolean;
+so hospital: boolean;
+    mall: boolean;
+  };
 };
 
 export type ViewingType = 'Individual Viewing' | 'Group Viewing';

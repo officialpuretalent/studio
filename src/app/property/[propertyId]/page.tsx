@@ -11,6 +11,16 @@ const MOCK_PROPERTY: Property = {
   rent: 15000,
   deposit: 30000,
   imageUrl: 'https://picsum.photos/1200/800',
+  areaInterests: ['Sandton City Mall', 'Nelson Mandela Square', 'Gautrain Station'],
+  uberFriendly: true,
+  rating: 8.5,
+  amenities: {
+    gym: true,
+    cafe: true,
+    restaurants: true,
+    hospital: false,
+    mall: true,
+  },
 };
 
 const generateMockSlots = (): ViewingSlot[] => {
@@ -83,11 +93,11 @@ export default function PropertyPage({
         </div>
       </header>
       <main className="container mx-auto p-4 md:p-8">
-        <div className="max-w-4xl mx-auto flex flex-col lg:flex-row gap-8">
-          <div className="lg:w-1/2">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-[60%]">
             <PropertyDetailsCard property={property} isAvailable={isAvailable} />
           </div>
-          <div className="lg:w-1/2">
+          <div className="lg:w-[40%]">
             {isAvailable ? (
               <BookingCalendar
                 propertyId={property.id}

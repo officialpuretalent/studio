@@ -91,12 +91,12 @@ export function BookingForm({
   }
 
   return (
-    <Card className="w-full animate-in fade-in-50 zoom-in-95 duration-500 border">
+    <Card className="w-full animate-in fade-in-50 zoom-in-95 duration-500">
       <CardHeader>
         <CardTitle className="text-2xl font-headline">Confirm Your Details</CardTitle>
         <CardDescription>
           You've selected{' '}
-          <span className="font-semibold text-accent">
+          <span className="font-semibold text-primary">
             {format(selectedTime, "h:mm a 'on' EEEE, do LLLL")}
           </span>
           .
@@ -146,7 +146,7 @@ export function BookingForm({
             />
             <Button
               type="submit"
-              className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+              className="w-full font-semibold"
               disabled={isPending}
             >
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
