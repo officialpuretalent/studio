@@ -66,7 +66,7 @@ export function BookingCalendar({
   }, [date, displaySlots]);
 
   return (
-    <Card className="animate-in fade-in-50 duration-500 delay-150 shadow-none border-0 bg-transparent">
+    <Card className="animate-in fade-in-50 duration-500 delay-150">
       <CardHeader>
         <CardTitle className="font-headline text-xl">Select a time</CardTitle>
       </CardHeader>
