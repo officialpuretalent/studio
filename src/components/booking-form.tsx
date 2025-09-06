@@ -96,7 +96,7 @@ export function BookingForm({
         <CardTitle className="text-2xl font-headline">Confirm Your Details</CardTitle>
         <CardDescription>
           You've selected{' '}
-          <span className="font-semibold text-primary">
+          <span className="font-semibold text-foreground">
             {format(selectedTime, "h:mm a 'on' EEEE, do LLLL")}
           </span>
           .
