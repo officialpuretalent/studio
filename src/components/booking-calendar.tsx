@@ -70,13 +70,15 @@ export function BookingCalendar({
       <CardHeader>
         <CardTitle className="font-headline text-xl">Select a time</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-1 md:grid-cols-1 gap-6">
-        <DateScroller
-          availableDays={availableDays}
-          selectedDate={date}
-          onSelectDate={setDate}
-        />
-        <div className="flex flex-col gap-3 max-h-[22rem] overflow-y-auto pr-2">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[30rem] overflow-hidden">
+        <div className="flex flex-col gap-3 overflow-y-auto pr-2">
+            <DateScroller
+            availableDays={availableDays}
+            selectedDate={date}
+            onSelectDate={setDate}
+            />
+        </div>
+        <div className="flex flex-col gap-3 overflow-y-auto pr-2">
           {slotsForSelectedDate.length > 0 ? (
             slotsForSelectedDate.map((slot) => {
               const isBooked = slot.bookedSlots >= slot.totalSlots;

@@ -1,19 +1,11 @@
 
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
-import { format, addDays, isSameDay } from 'date-fns';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from '@/components/ui/carousel';
+import { useMemo, useEffect, useRef } from 'react';
+import { format, addDays, isSameDay, getMonth, getYear } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CalendarIcon } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface DateScrollerProps {
   availableDays: Date[];
@@ -26,102 +18,89 @@ export function DateScroller({
   selectedDate,
   onSelectDate,
 }: DateScrollerProps) {
-  const [api, setApi] = useState<CarouselApi>();
-  const [currentMonth, setCurrentMonth] = useState('');
+  const selectedDateRef = useRef<HTMLButtonElement>(null);
+  const monthRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const days = useMemo(() => {
     if (availableDays.length === 0) return [];
-    const daysArray = [];
-    const firstDay = availableDays[0] || new Date();
-    for (let i = 0; i < 30; i++) {
-      daysArray.push(addDays(firstDay, i));
+    const daysArray: Date[] = [];
+    const firstDay = availableDays.sort((a,b) => a.getTime() - b.getTime())[0] || new Date();
+    const lastDay = availableDays.sort((a,b) => b.getTime() - a.getTime())[0] || addDays(new Date(), 30);
+    
+    let currentDate = firstDay;
+    while(currentDate <= lastDay) {
+        daysArray.push(currentDate);
+        currentDate = addDays(currentDate, 1);
     }
+
+    if(daysArray.length < 30) {
+        const lastDate = daysArray.length > 0 ? daysArray[daysArray.length - 1] : new Date();
+        for(let i=daysArray.length; i<30; i++) {
+            daysArray.push(addDays(lastDate, i - daysArray.length + 1));
+        }
+    }
+
     return daysArray;
   }, [availableDays]);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    const updateMonth = () => {
-      const firstVisibleIndex = api.scrollSnapList()[0];
-      if (days[firstVisibleIndex]) {
-        setCurrentMonth(format(days[firstVisibleIndex], 'MMMM yyyy'));
-      }
-    };
-
-    updateMonth();
-    api.on('select', updateMonth);
-    return () => {
-      api.off('select', updateMonth);
-    };
-  }, [api, days]);
 
   useEffect(() => {
-    if (api && selectedDate) {
-      const selectedIndex = days.findIndex((day) =>
-        isSameDay(day, selectedDate)
-      );
-      if (selectedIndex !== -1) {
-        api.scrollTo(selectedIndex, true);
-      }
+    if (selectedDateRef.current) {
+      selectedDateRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
     }
-  }, [api, selectedDate, days]);
+  }, [selectedDate]);
 
   const isDayAvailable = (day: Date) => {
     return availableDays.some((availableDay) => isSameDay(day, availableDay));
   };
+  
+  const groupedDays = useMemo(() => {
+      const groups: {[key: string]: Date[]} = {};
+      days.forEach(day => {
+          const monthKey = format(day, 'MMMM yyyy');
+          if(!groups[monthKey]) {
+              groups[monthKey] = [];
+          }
+          groups[monthKey].push(day);
+      })
+      return groups;
+  }, [days])
+
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-lg font-headline">{currentMonth}</h3>
-        <div className="flex items-center gap-2">
-            {/* The calendar icon can be used to open a full calendar view in the future */}
-            {/* <Button variant="outline" size="icon"><CalendarIcon /></Button> */}
+    <div className="space-y-4 w-full">
+      {Object.entries(groupedDays).map(([month, monthDays], index) => (
+        <div key={month} ref={el => monthRefs.current[index] = el} className="space-y-2">
+          <h3 className="font-semibold text-lg font-headline pl-2">{month}</h3>
+          <div className="flex flex-col gap-2">
+            {monthDays.map((day) => {
+                const isSelected = selectedDate ? isSameDay(day, selectedDate) : false;
+                return (
+                    <Button
+                        key={day.toString()}
+                        ref={isSelected ? selectedDateRef : null}
+                        variant={isSelected ? 'default' : 'ghost'}
+                        className={cn(
+                        'flex justify-between h-auto p-3 rounded-lg w-full items-center',
+                        !isDayAvailable(day) && 'text-muted-foreground pointer-events-none'
+                        )}
+                        onClick={() => onSelectDate(day)}
+                        disabled={!isDayAvailable(day)}
+                    >
+                        <div className="flex flex-col items-start">
+                            <span className="text-sm font-normal">{format(day, 'E')}</span>
+                            <span className="font-bold text-lg">{format(day, 'd')}</span>
+                        </div>
+                        {isSelected && <div className="w-2 h-2 rounded-full bg-primary-foreground" />}
+                    </Button>
+                )
+            })}
+          </div>
         </div>
-      </div>
-      <Carousel
-        setApi={setApi}
-        opts={{
-          align: 'start',
-          dragFree: true,
-          containScroll: 'keepSnaps',
-        }}
-        className="w-full"
-      >
-        <CarouselContent className="-ml-2">
-          {days.map((day, index) => (
-            <CarouselItem
-              key={index}
-              className="basis-1/7 pl-2 md:basis-[calc(100%/8)]"
-            >
-              <Button
-                variant={
-                  isSameDay(day, selectedDate || new Date())
-                    ? 'default'
-                    : 'outline'
-                }
-                className={cn(
-                  'flex flex-col h-auto p-3 rounded-full aspect-square w-full items-center justify-center gap-1',
-                  !isDayAvailable(day) &&
-                    'bg-muted text-muted-foreground pointer-events-none'
-                )}
-                onClick={() => onSelectDate(day)}
-                disabled={!isDayAvailable(day)}
-              >
-                <span className="text-sm">{format(day, 'E')}</span>
-                <span className="font-bold text-lg">{format(day, 'd')}</span>
-              </Button>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="hidden md:block">
-            <CarouselPrevious className="absolute -left-4 top-1/2 -translate-y-1/2" />
-            <CarouselNext className="absolute -right-4 top-1/2 -translate-y-1/2" />
-        </div>
-      </Carousel>
+      ))}
     </div>
   );
 }
