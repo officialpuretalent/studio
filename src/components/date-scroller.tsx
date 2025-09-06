@@ -5,7 +5,7 @@ import { useMemo, useEffect, useRef } from 'react';
 import { format, addDays, isSameDay } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface DateScrollerProps {
   availableDays: Date[];
