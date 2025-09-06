@@ -67,10 +67,10 @@ export function BookingCalendar({
 
   return (
     <Card className="animate-in fade-in-50 duration-500 delay-150">
-      <CardHeader>
+      <CardHeader className="p-5 pb-0">
         <CardTitle className="font-headline text-xl">Select a time</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 p-5">
         <DateScroller
           availableDays={availableDays}
           selectedDate={date}
