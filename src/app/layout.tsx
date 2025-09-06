@@ -1,11 +1,27 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { Poppins, Bodoni_Moda } from 'next/font/google';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Aperture',
   description: 'Smart Property Viewing Scheduler',
 };
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: ['400', '600', '700'],
+});
+
+const bodoni = Bodoni_Moda({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-bodoni-moda',
+  axes: ['opsz'],
+});
 
 export default function RootLayout({
   children,
@@ -13,19 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;800&family=Poppins:wght@400;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      className={cn('h-full', poppins.variable, bodoni.variable)}
+    >
+      <head />
       <body className="font-body antialiased h-full bg-background">
         {children}
         <Toaster />

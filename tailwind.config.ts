@@ -10,9 +10,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Poppins', 'sans-serif'],
-        headline: ['Poppins', 'sans-serif'],
-        logo: ['"Bodoni Moda"', 'serif'],
+        body: ['var(--font-poppins)', 'sans-serif'],
+        headline: ['var(--font-poppins)', 'sans-serif'],
+        logo: ['var(--font-bodoni-moda)', 'serif'],
         code: ['monospace'],
       },
       colors: {
