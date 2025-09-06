@@ -76,7 +76,7 @@ export function BookingCalendar({
           selectedDate={date}
           onSelectDate={setDate}
         />
-        <div className="flex flex-col gap-3 overflow-y-auto pr-2 max-h-[18rem]">
+        <div className="flex flex-col gap-3 overflow-y-auto pr-2">
           {slotsForSelectedDate.length > 0 ? (
             slotsForSelectedDate.map((slot) => {
               const isBooked = slot.bookedSlots >= slot.totalSlots;
