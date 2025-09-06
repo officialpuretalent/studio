@@ -1,19 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Plus, Mic, AudioLines, ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 export function AskAnythingBar() {
   const [inputValue, setInputValue] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const hasInput = inputValue.length > 0;
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      const scrollHeight = textarea.scrollHeight;
+      textarea.style.height = `${scrollHeight}px`;
+    }
+  }, [inputValue]);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-transparent">
       <div className="relative max-w-lg mx-auto">
-        <div className="flex items-center gap-2 p-2 bg-background/80 backdrop-blur-sm rounded-full shadow-lg border border-border">
+        <div className="flex items-end gap-2 p-2 bg-background/80 backdrop-blur-sm rounded-3xl shadow-lg border border-border">
           <Button
             variant="ghost"
             size="icon"
@@ -21,11 +31,13 @@ export function AskAnythingBar() {
           >
             <Plus />
           </Button>
-          <Input
+          <Textarea
+            ref={textareaRef}
             placeholder="Ask anything"
-            className="flex-grow bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base"
+            className="flex-grow bg-transparent border-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base resize-none overflow-y-hidden min-h-[2.5rem] max-h-48"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            rows={1}
           />
           {hasInput ? (
             <Button
