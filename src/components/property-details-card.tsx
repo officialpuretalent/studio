@@ -9,7 +9,6 @@ import {
 import { Badge } from '@/components/ui/badge';
 import type { Property } from '@/lib/types';
 import { BedDouble, Bath, Wallet, Star, Dumbbell, Utensils, Hospital, ShoppingCart, Coffee, CheckCircle } from 'lucide-react';
-import { Separator } from './ui/separator';
 import {
   Accordion,
   AccordionContent,
@@ -125,8 +124,6 @@ export function PropertyDetailsCard({
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-
-        <Separator />
 
         <div>
             <h3 className='font-headline font-semibold text-lg mb-3'>Area Highlights</h3>
