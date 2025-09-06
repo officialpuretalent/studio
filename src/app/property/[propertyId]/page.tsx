@@ -10,7 +10,7 @@ const MOCK_PROPERTY: Property = {
   details: '2 Bedrooms, 1 Bathroom',
   rent: 15000,
   deposit: 30000,
-  imageUrl: 'https://picsum.photos/1200/800',
+  imageUrl: 'https://helium.privateproperty.co.za/live-za-images/property/182/13/11326182/images/property-11326182-5743255_dhd.jpg',
   areaInterests: ['Sandton City Mall', 'Nelson Mandela Square', 'Gautrain Station'],
   uberFriendly: true,
   rating: 8.5,
