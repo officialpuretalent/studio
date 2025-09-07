@@ -98,7 +98,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     filter: blur(80px);
-    opacity: 0.8;
+    opacity: 1;
   }
 
   .dark body::before {
@@ -107,6 +107,6 @@
       radial-gradient(ellipse 40% 50% at 90% 10%, hsl(28 100% 50% / 0.5), transparent),
       radial-gradient(ellipse 50% 60% at 20% 95%, hsl(220 100% 60% / 0.6), transparent),
       radial-gradient(ellipse 40% 50% at 60% 85%, hsl(260 100% 70% / 0.5), transparent);
-    opacity: 0.5;
+    opacity: 0.6;
   }
 }
