@@ -5,7 +5,8 @@ import { redirect } from 'next/navigation';
 import { generateCalendarInvite } from '@/ai/flows/generate-calendar-invite';
 import { format, addMinutes } from 'date-fns';
 import { parsePhoneNumberFromString, isValidPhoneNumber } from 'libphonenumber-js';
-import { rateLimit, isRateLimited } from '@/lib/rate-limit-server';
+import { checkRateLimit, rateLimitConfigs } from './rate-limit';
+import { headers } from 'next/headers';
 
 const bookViewingSchema = z.object({
   fullName: z.string(),
@@ -53,8 +54,36 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
   }
 }
 
-// Internal booking function (without rate limiting)
-async function _bookViewing(data: z.infer<typeof bookViewingSchema>) {
+function getClientIPForAction(): string {
+    const headersList = headers();
+    const forwarded = headersList.get('x-forwarded-for');
+    const realIP = headersList.get('x-real-ip');
+    const cfIP = headersList.get('cf-connecting-ip');
+    
+    let clientIP = 'unknown';
+    if (forwarded) {
+      clientIP = forwarded.split(',')[0].trim();
+    } else if (realIP) {
+      clientIP = realIP;
+    } else if (cfIP) {
+      clientIP = cfIP;
+    }
+    return clientIP;
+}
+
+export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
+  const clientIP = getClientIPForAction();
+  const rateLimitResult = checkRateLimit(`booking:${clientIP}`, rateLimitConfigs.booking);
+
+  if (!rateLimitResult.success) {
+      console.warn(`Rate limit exceeded for booking:${clientIP}:`, rateLimitResult.error);
+      return {
+        success: false,
+        error: rateLimitResult.error || 'Rate limit exceeded. Please try again later.',
+        rateLimited: true,
+      };
+  }
+    
   const validation = bookViewingSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, error: 'Invalid data provided.' };
@@ -98,8 +127,6 @@ async function _bookViewing(data: z.infer<typeof bookViewingSchema>) {
   redirect(`/property/${propertyId}/confirmed?${params.toString()}`);
 }
 
-// Rate-limited booking function (5 bookings per hour per IP)
-export const bookViewing = rateLimit(_bookViewing, 'booking');
 
 const calendarInviteSchema = z.object({
   propertyAddress: z.string(),
@@ -108,10 +135,21 @@ const calendarInviteSchema = z.object({
   viewingTime: z.string().datetime(),
 });
 
-// Internal calendar invite function (without rate limiting)
-async function _getCalendarInvite(
+export async function getCalendarInvite(
   data: z.infer<typeof calendarInviteSchema>
 ) {
+    const clientIP = getClientIPForAction();
+    const rateLimitResult = checkRateLimit(`calendar:${clientIP}`, rateLimitConfigs.calendar);
+
+    if (!rateLimitResult.success) {
+        console.warn(`Rate limit exceeded for calendar:${clientIP}:`, rateLimitResult.error);
+        return {
+            success: false,
+            error: rateLimitResult.error || 'Rate limit exceeded. Please try again later.',
+            rateLimited: true,
+        };
+    }
+
   const validation = calendarInviteSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, error: 'Invalid data for calendar invite.' };
@@ -141,6 +179,3 @@ async function _getCalendarInvite(
     };
   }
 }
-
-// Rate-limited calendar invite function (10 invites per 10 minutes per IP)
-export const getCalendarInvite = rateLimit(_getCalendarInvite, 'calendar');
