@@ -67,6 +67,9 @@ const generateMockSlots = (): ViewingSlot[] => {
   return slots;
 };
 
+// 🚀 CACHE THE MOCK SLOTS - Generate once, reuse everywhere
+const CACHED_MOCK_SLOTS = generateMockSlots();
+
 export default function PropertyPage({
   params,
 }: {
@@ -74,7 +77,7 @@ export default function PropertyPage({
 }) {
   // In a real app, data would be fetched based on params.propertyId
   const property = MOCK_PROPERTY;
-  const viewingSlots = generateMockSlots();
+  const viewingSlots = CACHED_MOCK_SLOTS;
 
   const isAvailable = true;
 
