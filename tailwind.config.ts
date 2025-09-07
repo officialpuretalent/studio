@@ -15,8 +15,9 @@ export default {
       fontFamily: {
         body: ['var(--font-poppins)', 'sans-serif'],
         headline: ['var(--font-bodoni-moda)', 'sans-serif'],
-        logo: ['var(--font-bodoni-moda)', 'serif'],
-        code: ['monospace'],
+        logo: ['var(--font-fk-grotesk)', 'monospace'],
+        mono: ['var(--font-fk-grotesk)', 'monospace'],
+        code: ['var(--font-fk-grotesk)', 'monospace'],
       },
       colors: {
         background: 'hsl(var(--background))',

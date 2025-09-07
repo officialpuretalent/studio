@@ -2,9 +2,9 @@
 
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
-import { validateTenantInfo } from '@/ai/flows/validate-tenant-info';
 import { generateCalendarInvite } from '@/ai/flows/generate-calendar-invite';
 import { format, addMinutes } from 'date-fns';
+import { parsePhoneNumberFromString, isValidPhoneNumber } from 'libphonenumber-js';
 
 const bookViewingSchema = z.object({
   fullName: z.string(),
@@ -14,6 +14,43 @@ const bookViewingSchema = z.object({
   propertyAddress: z.string(),
   viewingTime: z.string().datetime(),
 });
+
+// Simple validation function
+function validateEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?: string} {
+  try {
+    // Try to parse the phone number (defaults to international format)
+    let parsed = parsePhoneNumberFromString(phoneNumber)
+
+    if (parsed && parsed.isValid()) {
+      return {
+        isValid: true,
+        formatted: parsed.formatInternational(),
+      }
+    }
+
+    // If no country code provided, try with South African country code
+    if (!phoneNumber.startsWith('+')) {
+      const withCountryCode = `+27${phoneNumber.replace(/^0/, '')}`;
+      parsed = parsePhoneNumberFromString(withCountryCode, 'ZA');
+
+      if (parsed && parsed.isValid()) {
+        return {
+          isValid: true,
+          formatted: parsed.formatInternational(),
+        }
+      }
+    }
+
+    return {isValid: false, formatted: undefined}
+  } catch (error) {
+    return {isValid: false, formatted: undefined}
+  }
+}
 
 export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
   const validation = bookViewingSchema.safeParse(data);
@@ -30,30 +67,24 @@ export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
     viewingTime,
   } = validation.data;
 
-  try {
-    const { isValidEmail, isValidPhoneNumber } = await validateTenantInfo({
-      email,
-      phoneNumber: mobileNumber,
-    });
+  // Fast, local validation (takes milliseconds instead of seconds)
+  const isValidEmail = validateEmail(email);
+  const phoneValidation = validatePhoneNumber(mobileNumber);
 
-    if (!isValidEmail || !isValidPhoneNumber) {
-      let errorMessage = 'Please check your contact details.';
-      if (!isValidEmail && !isValidPhoneNumber)
-        errorMessage = 'The email and phone number appear to be invalid.';
-      else if (!isValidEmail)
-        errorMessage = 'The email address appears to be invalid.';
-      else if (!isValidPhoneNumber)
-        errorMessage = 'The phone number appears to be invalid.';
-      return { success: false, error: errorMessage };
+  if (!isValidEmail || !phoneValidation.isValid) {
+    let errorMessage = 'Please check your contact details.';
+    if (!isValidEmail && !phoneValidation.isValid) {
+      errorMessage = 'The email and phone number appear to be invalid.';
+    } else if (!isValidEmail) {
+      errorMessage = 'The email address appears to be invalid.';
+    } else if (!phoneValidation.isValid) {
+      errorMessage = 'The phone number appears to be invalid. Please include country code or use South African format.';
     }
-
-    // In a real app, you would save the booking to a database here.
-  } catch (error) {
-    console.error('AI validation failed:', error);
-    // For demo purposes, we will proceed even if AI validation fails.
-    // In a production app, you might want to return an error here.
-    // return { success: false, error: 'Could not validate your information. Please try again.' };
+    return { success: false, error: errorMessage };
   }
+
+  // In a real app, you would save the booking to a database here.
+  // You could store the formatted phone number: phoneValidation.formatted
 
   const params = new URLSearchParams({
     propertyAddress,

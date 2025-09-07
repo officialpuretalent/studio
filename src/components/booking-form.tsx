@@ -41,11 +41,20 @@ import { Skeleton } from './ui/skeleton';
 const bookingSchema = z.object({
   fullName: z
     .string()
-    .min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
+    .min(2, { message: 'Name must be at least 2 characters.' })
+    .max(50, { message: 'Name must be less than 50 characters.' }),
+  email: z
+    .string()
+    .email({ message: 'Please enter a valid email address.' })
+    .max(100, { message: 'Email must be less than 100 characters.' }),
   mobileNumber: z
     .string()
-    .min(10, { message: 'Please enter a valid mobile number.' }),
+    .min(10, { message: 'Please enter a valid mobile number.' })
+    .max(15, { message: 'Phone number too long.' })
+    .refine((phone) => {
+      const cleanPhone = phone.replace(/\s+/g, '');
+      return /^(\+27|0)[0-9]{9}$/.test(cleanPhone) || /^\+[1-9]\d{1,14}$/.test(cleanPhone);
+    }, { message: 'Please enter a valid phone number with country code or SA format (0xx xxx xxxx).' }),
 });
 
 export function BookingForm({

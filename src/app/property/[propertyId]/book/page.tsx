@@ -39,7 +39,9 @@ function BookingPageContent({ propertyId }: { propertyId: string }) {
   );
 }
 
-export default function BookPage({ params }: { params: { propertyId: string } }) {
+export default async function BookPage({ params }: { params: { propertyId: string } }) {
+  const { propertyId } = await params;
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -47,7 +49,7 @@ export default function BookPage({ params }: { params: { propertyId: string } })
           <ApertureLogo />
         </div>
         <Suspense fallback={<BookingFormSkeleton />}>
-          <BookingPageContent propertyId={params.propertyId} />
+          <BookingPageContent propertyId={propertyId} />
         </Suspense>
       </div>
     </div>
