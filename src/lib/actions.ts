@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { generateCalendarInvite } from '@/ai/flows/generate-calendar-invite';
 import { format, addMinutes } from 'date-fns';
 import { parsePhoneNumberFromString, isValidPhoneNumber } from 'libphonenumber-js';
+import { rateLimit, isRateLimited } from '@/lib/rate-limit-server';
 
 const bookViewingSchema = z.object({
   fullName: z.string(),
@@ -52,7 +53,8 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
   }
 }
 
-export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
+// Internal booking function (without rate limiting)
+async function _bookViewing(data: z.infer<typeof bookViewingSchema>) {
   const validation = bookViewingSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, error: 'Invalid data provided.' };
@@ -96,6 +98,9 @@ export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
   redirect(`/property/${propertyId}/confirmed?${params.toString()}`);
 }
 
+// Rate-limited booking function (5 bookings per hour per IP)
+export const bookViewing = rateLimit(_bookViewing, 'booking');
+
 const calendarInviteSchema = z.object({
   propertyAddress: z.string(),
   tenantName: z.string(),
@@ -103,7 +108,8 @@ const calendarInviteSchema = z.object({
   viewingTime: z.string().datetime(),
 });
 
-export async function getCalendarInvite(
+// Internal calendar invite function (without rate limiting)
+async function _getCalendarInvite(
   data: z.infer<typeof calendarInviteSchema>
 ) {
   const validation = calendarInviteSchema.safeParse(data);
@@ -135,3 +141,6 @@ export async function getCalendarInvite(
     };
   }
 }
+
+// Rate-limited calendar invite function (10 invites per 10 minutes per IP)
+export const getCalendarInvite = rateLimit(_getCalendarInvite, 'calendar');

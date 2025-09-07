@@ -117,10 +117,14 @@ export function BookingForm({
       });
 
       if (result && !result.success) {
+        // Check if it's a rate limit error
+        const isRateLimited = 'rateLimited' in result && result.rateLimited;
+        
         toast({
           variant: 'destructive',
-          title: 'Booking Failed',
+          title: isRateLimited ? 'Too Many Requests' : 'Booking Failed',
           description: result.error,
+          duration: isRateLimited ? 8000 : 5000, // Show rate limit errors longer
         });
       }
     });
