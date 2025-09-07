@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Poppins, Bodoni_Moda } from 'next/font/google';
 import localFont from 'next/font/local';
 import { cn } from '@/lib/utils';
+import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
   title: 'aperture',
@@ -61,9 +62,9 @@ export default function RootLayout({
       lang="en"
       className={cn('h-full', poppins.variable, bodoni.variable, fkGrotesk.variable)}
     >
-      <head />
-      <body className="font-body antialiased h-full bg-background">
-        {children}
+      <body className="font-body antialiased h-full bg-background flex flex-col">
+        <div className="flex-grow">{children}</div>
+        <Footer />
         <Toaster />
       </body>
     </html>
