@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { BookingConfirmation } from '@/components/booking-confirmation';
-import ApertureLogo from '@/components/icons/aperture-logo';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -29,9 +28,6 @@ export default function ConfirmedPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-lg text-center">
-        <div className="flex justify-center mb-6">
-          <ApertureLogo />
-        </div>
         <Suspense fallback={<ConfirmationSkeleton />}>
           <BookingConfirmation />
         </Suspense>

@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { BookingForm } from '@/components/booking-form';
-import ApertureLogo from '@/components/icons/aperture-logo';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -45,9 +44,6 @@ export default async function BookPage({ params }: { params: { propertyId: strin
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="flex justify-center mb-6">
-          <ApertureLogo />
-        </div>
         <Suspense fallback={<BookingFormSkeleton />}>
           <BookingPageContent propertyId={propertyId} />
         </Suspense>
