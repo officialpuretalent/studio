@@ -7,11 +7,11 @@ export function AgentCard() {
   return (
     <div className="relative w-full h-full mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
       <Image
-        src="https://picsum.photos/400/600"
-        alt="Portrait of the listing agent"
+        src="/images/talent_qwabe.jpeg"
+        alt="Portrait of the listing agent, Talent Qwabe"
         fill
         className="object-cover w-full h-full"
-        data-ai-hint="woman portrait"
+        data-ai-hint="professional woman"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
