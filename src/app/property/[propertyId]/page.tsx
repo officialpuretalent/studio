@@ -3,6 +3,7 @@ import { BookingCalendar } from '@/components/booking-calendar';
 import type { Property, ViewingSlot } from '@/lib/types';
 import ApertureLogo from '@/components/icons/aperture-logo';
 import { AskAnythingBar } from '@/components/ask-anything-bar';
+import { AgentCard } from '@/components/agent-card';
 
 // MOCK DATA
 const MOCK_PROPERTY: Property = {
@@ -104,6 +105,7 @@ export default function PropertyPage({
               </div>
             )}
           </div>
+          <AgentCard />
         </div>
       </main>
       <AskAnythingBar />
