@@ -14,7 +14,7 @@ export function MapCard({ address }: MapCardProps) {
     <Card className="w-full h-full mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
       <div className="relative h-full w-full">
         <Image
-          src="https://picsum.photos/400/300"
+          src="/images/location.jpg"
           alt="Map showing the location of the property"
           fill
           className="object-cover"
