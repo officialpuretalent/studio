@@ -50,7 +50,7 @@ export function AgentCard() {
           </DialogTrigger>
         </div>
       </div>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[90%] sm:max-w-[425px] rounded-lg">
         <DialogHeader>
           <DialogTitle>Contact {agentDetails.name}</DialogTitle>
           <DialogDescription>
