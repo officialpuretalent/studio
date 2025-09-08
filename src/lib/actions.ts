@@ -58,20 +58,21 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
 }
 
 function getClientIPForAction(): string {
-    const headersList = headers();
-    const forwarded = headersList.get('x-forwarded-for');
-    const realIP = headersList.get('x-real-ip');
-    const cfIP = headersList.get('cf-connecting-ip');
-    
-    let clientIP = 'unknown';
-    if (forwarded) {
-      clientIP = forwarded.split(',')[0].trim();
-    } else if (realIP) {
-      clientIP = realIP;
-    } else if (cfIP) {
-      clientIP = cfIP;
-    }
-    return clientIP;
+  const headersList = headers();
+  const forwardedFor = headersList.get('x-forwarded-for');
+  const realIp = headersList.get('x-real-ip');
+  const cfConnectingIp = headersList.get('cf-connecting-ip');
+
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0].trim();
+  }
+  if (realIp) {
+    return realIp.trim();
+  }
+  if (cfConnectingIp) {
+    return cfConnectingIp.trim();
+  }
+  return 'unknown';
 }
 
 export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
