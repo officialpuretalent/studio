@@ -25,6 +25,28 @@ interface BookingConfirmationDetails {
   bookingId: string;
 }
 
+// Validation helpers
+function validateButtonTitle(title: string): string {
+  if (title.length > 20) {
+    throw new Error(`Button title "${title}" exceeds 20 character limit`);
+  }
+  return title;
+}
+
+function validateButtonId(id: string): string {
+  if (id.length > 256) {
+    throw new Error(`Button ID "${id}" exceeds 256 character limit`);
+  }
+  return id;
+}
+
+function validateBodyText(text: string): string {
+  if (text.length > 1024) {
+    throw new Error(`Body text exceeds 1024 character limit (${text.length} characters)`);
+  }
+  return text;
+}
+
 export async function sendBookingConfirmation(
   details: BookingConfirmationDetails
 ) {
@@ -51,6 +73,13 @@ export async function sendBookingConfirmation(
 
   const messageBody = `Hi ${tenantName},\n\nYour viewing for the property at *${propertyAddress}* is scheduled for *${formattedTime}*.\n\nPlease confirm or cancel your attendance below.`;
 
+  // Validate message components
+  const validatedBody = validateBodyText(messageBody);
+  const confirmButtonId = validateButtonId(`confirm_${bookingId}`);
+  const cancelButtonId = validateButtonId(`cancel_${bookingId}`);
+  const confirmTitle = validateButtonTitle('Confirm Viewing');
+  const cancelTitle = validateButtonTitle('Cancel Viewing');
+
   const messagePayload = {
     messaging_product: 'whatsapp',
     recipient_type: 'individual',
@@ -59,22 +88,25 @@ export async function sendBookingConfirmation(
     interactive: {
       type: 'button',
       body: {
-        text: messageBody,
+        text: validatedBody,
+      },
+      footer: {
+        text: 'Aperture Studio - Property Viewings'
       },
       action: {
         buttons: [
           {
             type: 'reply',
             reply: {
-              id: `confirm_${bookingId}`,
-              title: 'Confirm Viewing',
+              id: confirmButtonId,
+              title: confirmTitle,
             },
           },
           {
             type: 'reply',
             reply: {
-              id: `cancel_${bookingId}`,
-              title: 'Cancel Viewing',
+              id: cancelButtonId,
+              title: cancelTitle,
             },
           },
         ],
@@ -83,7 +115,7 @@ export async function sendBookingConfirmation(
   };
 
   const response = await fetch(
-    `https://graph.facebook.com/v20.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
+    `https://graph.facebook.com/v23.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
     {
       method: 'POST',
       headers: {

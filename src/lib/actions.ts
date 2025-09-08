@@ -57,8 +57,8 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
   }
 }
 
-function getClientIPForAction(): string {
-  const headersList = headers();
+async function getClientIPForAction(): Promise<string> {
+  const headersList = await headers();
   const forwardedFor = headersList.get('x-forwarded-for');
   const realIp = headersList.get('x-real-ip');
   const cfConnectingIp = headersList.get('cf-connecting-ip');
@@ -76,7 +76,7 @@ function getClientIPForAction(): string {
 }
 
 export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
-  const clientIP = getClientIPForAction();
+  const clientIP = await getClientIPForAction();
   const rateLimitResult = checkRateLimit(`booking:${clientIP}`, rateLimitConfigs.booking);
 
   if (!rateLimitResult.success) {
@@ -158,7 +158,7 @@ const calendarInviteSchema = z.object({
 export async function getCalendarInvite(
   data: z.infer<typeof calendarInviteSchema>
 ) {
-    const clientIP = getClientIPForAction();
+    const clientIP = await getClientIPForAction();
     const rateLimitResult = checkRateLimit(`calendar:${clientIP}`, rateLimitConfigs.calendar);
 
     if (!rateLimitResult.success) {
