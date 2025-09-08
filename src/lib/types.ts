@@ -12,7 +12,7 @@ export type Property = {
     gym: boolean;
     cafe: boolean;
     restaurants: boolean;
-so hospital: boolean;
+    hospital: boolean;
     mall: boolean;
   };
 };
