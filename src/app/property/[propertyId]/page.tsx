@@ -85,11 +85,6 @@ export default function PropertyPage({
 
   return (
     <div className="bg-background min-h-screen">
-      <header className="p-4">
-        <div className="container mx-auto flex max-w-3xl items-center gap-3 rounded-full border bg-card/80 p-2 shadow-sm backdrop-blur-sm">
-          <ApertureLogo />
-        </div>
-      </header>
       <main className="container mx-auto p-4 md:p-8 pb-32 max-w-3xl">
         <div className="mx-auto flex flex-col gap-8">
           <PropertyDetailsCard property={property} isAvailable={isAvailable} />
