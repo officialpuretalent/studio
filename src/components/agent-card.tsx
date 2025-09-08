@@ -5,12 +5,11 @@ import { cn } from '@/lib/utils';
 
 export function AgentCard() {
   return (
-    <div className="relative w-full max-w-sm mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
+    <div className="relative w-full h-full mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
       <Image
         src="https://picsum.photos/400/600"
         alt="Portrait of the listing agent"
-        width={400}
-        height={600}
+        fill
         className="object-cover w-full h-full"
         data-ai-hint="woman portrait"
       />

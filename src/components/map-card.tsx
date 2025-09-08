@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { MapPin, Star, Share2 } from 'lucide-react';
 import {
   Card,
-  CardContent,
 } from '@/components/ui/card';
 
 interface MapCardProps {
@@ -12,8 +11,8 @@ interface MapCardProps {
 
 export function MapCard({ address }: MapCardProps) {
   return (
-    <Card className="w-full max-w-sm mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
-      <div className="relative h-64 w-full">
+    <Card className="w-full h-full mx-auto overflow-hidden rounded-2xl shadow-lg animate-in fade-in-50 duration-500 delay-300">
+      <div className="relative h-full w-full">
         <Image
           src="https://picsum.photos/400/300"
           alt="Map showing the location of the property"
