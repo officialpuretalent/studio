@@ -106,11 +106,11 @@ export default function PropertyPage({
               </div>
             )}
           </div>
-          <div className="flex flex-col md:flex-row gap-8 items-stretch min-h-[400px]">
-            <div className="flex-1 w-full md:w-1/2">
+          <div className="flex flex-wrap md:flex-nowrap gap-8 items-stretch min-h-[400px]">
+            <div className="flex-1 w-full min-w-[280px]">
                 <AgentCard />
             </div>
-            <div className="flex-1 w-full md:w-1/2">
+            <div className="flex-1 w-full min-w-[280px]">
                 <MapCard address={property.address} />
             </div>
           </div>
