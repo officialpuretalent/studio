@@ -106,7 +106,7 @@ export default function PropertyPage({
               </div>
             )}
           </div>
-          <div className="flex flex-col md:flex-row gap-8 h-96">
+          <div className="flex flex-col md:flex-row gap-8 h-[400px] md:h-[500px]">
             <div className="flex-1 w-full min-w-[280px]">
                 <AgentCard />
             </div>
