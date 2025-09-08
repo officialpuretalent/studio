@@ -8,6 +8,7 @@ import { parsePhoneNumberFromString, isValidPhoneNumber } from 'libphonenumber-j
 import { checkRateLimit, rateLimitConfigs } from './rate-limit';
 import { headers } from 'next/headers';
 import { sendBookingConfirmation } from '@/services/whatsapp';
+import { sendBookingConfirmationEmail } from '@/services/email';
 
 const bookViewingSchema = z.object({
   fullName: z.string(),
@@ -121,20 +122,29 @@ export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
   // In a real app, you would save the booking to a database here.
   // We'll generate a unique ID for the booking to use in WhatsApp button callbacks.
   const bookingId = `booking_${propertyId}_${new Date(viewingTime).getTime()}`;
+  const viewingDate = new Date(viewingTime);
 
-  // Send WhatsApp notification
+  // Send notifications in parallel
   try {
-    await sendBookingConfirmation({
+    await Promise.all([
+      sendBookingConfirmation({
         tenantName: fullName,
         tenantWhatsAppNumber: phoneValidation.e164,
         propertyAddress: propertyAddress,
-        viewingTime: new Date(viewingTime),
+        viewingTime: viewingDate,
         bookingId: bookingId,
-    });
+      }),
+      sendBookingConfirmationEmail({
+        tenantName: fullName,
+        tenantEmail: email,
+        propertyAddress: propertyAddress,
+        viewingTime: viewingDate,
+      })
+    ]);
   } catch (error) {
-    console.error('Failed to send WhatsApp notification:', error);
-    // We can decide if this should be a critical error. For now, we'll just log it.
-    // In a real app, you might want to add this to a retry queue.
+    console.error('Failed to send one or more notifications:', error);
+    // Decide if this is a critical error. For now, we'll log it and proceed.
+    // In a real app, you might add this to a retry queue.
   }
 
   const params = new URLSearchParams({
