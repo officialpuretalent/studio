@@ -7,6 +7,7 @@ import { format, addMinutes } from 'date-fns';
 import { parsePhoneNumberFromString, isValidPhoneNumber } from 'libphonenumber-js';
 import { checkRateLimit, rateLimitConfigs } from './rate-limit';
 import { headers } from 'next/headers';
+import { sendBookingConfirmation } from '@/services/whatsapp';
 
 const bookViewingSchema = z.object({
   fullName: z.string(),
@@ -23,7 +24,7 @@ function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
-function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?: string} {
+function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?: string, e164?: string} {
   try {
     // Try to parse the phone number (defaults to international format)
     let parsed = parsePhoneNumberFromString(phoneNumber)
@@ -32,6 +33,7 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
       return {
         isValid: true,
         formatted: parsed.formatInternational(),
+        e164: parsed.format('E.164').replace('+', ''),
       }
     }
 
@@ -44,13 +46,14 @@ function validatePhoneNumber(phoneNumber: string): {isValid: boolean, formatted?
         return {
           isValid: true,
           formatted: parsed.formatInternational(),
+          e164: parsed.format('E.164').replace('+', ''),
         }
       }
     }
 
-    return {isValid: false, formatted: undefined}
+    return {isValid: false}
   } catch (error) {
-    return {isValid: false, formatted: undefined}
+    return {isValid: false}
   }
 }
 
@@ -102,7 +105,7 @@ export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
   const isValidEmail = validateEmail(email);
   const phoneValidation = validatePhoneNumber(mobileNumber);
 
-  if (!isValidEmail || !phoneValidation.isValid) {
+  if (!isValidEmail || !phoneValidation.isValid || !phoneValidation.e164) {
     let errorMessage = 'Please check your contact details.';
     if (!isValidEmail && !phoneValidation.isValid) {
       errorMessage = 'The email and phone number appear to be invalid.';
@@ -115,7 +118,23 @@ export async function bookViewing(data: z.infer<typeof bookViewingSchema>) {
   }
 
   // In a real app, you would save the booking to a database here.
-  // You could store the formatted phone number: phoneValidation.formatted
+  // We'll generate a unique ID for the booking to use in WhatsApp button callbacks.
+  const bookingId = `booking_${propertyId}_${new Date(viewingTime).getTime()}`;
+
+  // Send WhatsApp notification
+  try {
+    await sendBookingConfirmation({
+        tenantName: fullName,
+        tenantWhatsAppNumber: phoneValidation.e164,
+        propertyAddress: propertyAddress,
+        viewingTime: new Date(viewingTime),
+        bookingId: bookingId,
+    });
+  } catch (error) {
+    console.error('Failed to send WhatsApp notification:', error);
+    // We can decide if this should be a critical error. For now, we'll just log it.
+    // In a real app, you might want to add this to a retry queue.
+  }
 
   const params = new URLSearchParams({
     propertyAddress,
